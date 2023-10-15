@@ -54,12 +54,14 @@ pipeline {
 
          stage('Docker Build') {
             steps {
-                    sh '''
+                    script {
+		       sh '''
 		     sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 497511884140.dkr.ecr.us-east-1.amazonaws.com
 		     sudo docker build -t  santa123:latest .
                      sudo docker tag  santa123:latest 497511884140.dkr.ecr.us-east-1.amazonaws.com/my-test-repo:latest
 		     sudo docker push 497511884140.dkr.ecr.us-east-1.amazonaws.com/my-test-repo:latest
-      		'''
+      		    '''
+		}
             }
         }        
         	 
