@@ -52,27 +52,16 @@ pipeline {
             }
         }
 
-        //  stage('Docker Build') {
-        //     steps {
-        //        script{
-        //            withDockerRegistry(credentialsId: 'docker-cred') {
-        //             sh "docker build -t  santa123 . "
-        //          }
-        //        }
-        //     }
-        // }
-
-        // stage('Docker Push') {
-        //     steps {
-        //        script{
-        //            withDockerRegistry(credentialsId: 'docker-cred') {
-        //             sh "docker tag santa123 adijaiswal/santa123:latest"
-        //             sh "docker push adijaiswal/santa123:latest"
-        //          }
-        //        }
-        //     }
-        // }
-        
+         stage('Docker Build') {
+            steps {
+                    sh '''
+		     aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 497511884140.dkr.ecr.us-east-1.amazonaws.com
+		     docker build -t  santa123:latest .
+                     docker tag  santa123:latest 497511884140.dkr.ecr.us-east-1.amazonaws.com/my-test-repo:latest
+		     docker push 497511884140.dkr.ecr.us-east-1.amazonaws.com/my-test-repo:latest
+      		'''
+            }
+        }        
         	 
         // stage('Docker Image Scan') {
         //     steps {
